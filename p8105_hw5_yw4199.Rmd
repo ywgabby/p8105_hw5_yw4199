@@ -59,10 +59,16 @@ file_df =
 # Make a spaghetti plot showing observations on each subject over time, and comment on differences between groups.
 file_df |> 
   group_by(arm, subject_id) |> 
-  ggplot(aes(x = week, y = value, color = interaction(arm, subject_id)))+
-  geom_line()+
-  labs(title = "Observations on Each Subject over Time",
-       x = "Week",
-       y = "Observation Value")
+  ggplot(aes(x = week, y = value, 
+             group = subject_id, 
+             color = interaction(arm, subject_id))) +
+  geom_line() +
+  facet_grid(~arm) +
+  labs(title = "Observations Over Time by Two Arms",
+       x = "Week", y = "Observation Values", color = "Arms") +
+  theme_minimal()
 ```
 
+Experimental groups have higher oberservational values overall compared to the control group over time. Moreover, the experimental group shows an overall increasing trend, compared to the more constant trend in the control group over time. 
+
+## Problem 3
