@@ -7,6 +7,7 @@ output: github_document
 
 ```{r}
 library(tidyverse)
+library(broom)
 
 # Setting options. 
 knitr::opts_chunk$set(
@@ -72,3 +73,64 @@ file_df |>
 Experimental groups have higher oberservational values overall compared to the control group over time. Moreover, the experimental group shows an overall increasing trend, compared to the more constant trend in the control group over time. 
 
 ## Problem 3
+```{r}
+set.seed(1)
+```
+
+```{r}
+#Set the design elements. 
+n = 30
+sigma = 5
+alpha = 0.05
+true_mu_values = c(0, 1, 2, 3, 4, 5, 6)
+datasets_number = 5000
+```
+
+```{r}
+# Create output list.
+power = vector("list", length = 0)
+estimate_result = vector("list", length = 0)
+estimate_rejected_null = vector("list", length = 0)
+
+# T-test
+t_test_function = function(true_mu) {
+  data = rnorm(n, mean = true_mu, sd = sigma)
+  
+  test_result = broom::tidy(t.test(data, mu = 0))
+  return(c(pull(test_result,estimate), 
+           pull(test_result,p.value)))
+  }
+
+# Simulation
+for (mu in true_mu_values) {
+  results = replicate(datasets_number, t_test_function(mu))
+  
+  estimates = results[1, ]
+  
+  p_values = results[2, ]
+  
+  power[[as.character(mu)]] = mean(p_values < alpha)
+  estimate_result[[as.character(mu)]] = mean(estimates)
+  estimate_rejected_null[[as.character(mu)]] = mean(estimates[p_values < alpha])
+  
+  }
+```
+
+
+```{r}
+
+```
+
+```{r}
+
+for(i in 0:6) {
+     
+     # display the values
+    print(i)
+}
+
+
+
+
+```
+
