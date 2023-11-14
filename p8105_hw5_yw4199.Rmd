@@ -4,11 +4,12 @@ author: "Yaduo Wang"
 date: "2023-11-13"
 output: github_document
 ---
-
-```{r}
+```{r setup, include=FALSE}
 library(tidyverse)
 library(broom)
+```
 
+```{r}
 # Setting options. 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -29,7 +30,6 @@ scale_fill_discrete = scale_fill_viridis_d
 
 
 ## Problem 2
-
 ```{r}
 #get names of all files
 file_name_list = list.files(path = "data", pattern = "*.csv", full.names = TRUE)
