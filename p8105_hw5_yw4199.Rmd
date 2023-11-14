@@ -9,7 +9,7 @@ library(tidyverse)
 library(broom)
 ```
 
-```{r}
+```{r warning=FALSE}
 # Setting options. 
 knitr::opts_chunk$set(
   fig.width = 6,
@@ -30,7 +30,7 @@ scale_fill_discrete = scale_fill_viridis_d
 
 
 ## Problem 2
-```{r}
+```{r warning=FALSE}
 #get names of all files
 file_name_list = list.files(path = "data", pattern = "*.csv", full.names = TRUE)
 
@@ -104,12 +104,10 @@ t_test_function = function(true_mu) {
 # Simulation
 for (i in 0:6) {
   results = replicate(datasets_number, t_test_function(i))
-  
   estimate = results[1, ]
-  
   p_value = results[2, ]
   
-  power[[as.character(i)]] = mean(p_value < alpha)
+  power[[as.character(i)]] = mean(p_value < alpha) 
   estimate_result[[as.character(i)]] = mean(estimate)
   estimate_rejected_null[[as.character(i)]] = mean(estimate[p_value < alpha])
   }
